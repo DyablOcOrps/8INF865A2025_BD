@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,10 +95,18 @@ fun TipTimeLayout() {
         EditNumberField(
             value = amountInput,
             label = R.string.bill_amount,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next
+            ),
             onValueChange = { amountInput = it },
             modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth())
         EditNumberField(
             value = tipInput,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
             label = R.string.how_was_the_service,
             onValueChange = { tipInput = it },
             modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth())
@@ -123,6 +132,7 @@ private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
 @Composable
 fun EditNumberField(value: String,
                     @StringRes label: Int,
+                    keyboardOptions: KeyboardOptions,
                     onValueChange: (String) -> Unit,
                     modifier: Modifier = Modifier) {
 
@@ -131,7 +141,7 @@ fun EditNumberField(value: String,
         onValueChange = onValueChange,
         label = { Text(stringResource(label)) },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = keyboardOptions,
         modifier = modifier)
 }
 
